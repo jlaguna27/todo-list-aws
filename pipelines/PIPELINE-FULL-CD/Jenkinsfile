@@ -18,7 +18,7 @@ pipeline {
                     git checkout -b master origin/master
                     git merge develop
                 """, label: "Merging code to master"
-                sshagent(['jenkins_aws']) {
+                sshagent(credentials: ['jenkins_aws']) {
                     sh "git push origin master"
                 }
 
