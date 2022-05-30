@@ -1,5 +1,5 @@
-Started by user Juan Sebastian Laguna
-Obtained pipelines/PIPELINE-FULL-CD/Jenkinsfile from git https://github.com/jlaguna27/todo-list-aws/
+Started by user Juan Sebastian Laguna Almario
+Obtained pipelines/PIPELINE-FULL-CD/Jenkinsfile from git git@github.com:jlaguna27/todo-list-aws.git
 [Pipeline] Start of Pipeline
 [Pipeline] node
 Running on Jenkins in /var/lib/jenkins/workspace/PIPELINE-FULL-CD
@@ -9,23 +9,23 @@ Running on Jenkins in /var/lib/jenkins/workspace/PIPELINE-FULL-CD
 [Pipeline] checkout
 Selected Git installation does not exist. Using Default
 The recommended git tool is: NONE
-using credential e3a95a5d-0624-4bb3-947d-ad196fea2e60
+using credential ssh-key
 Cloning the remote Git repository
-Cloning repository https://github.com/jlaguna27/todo-list-aws/
+Cloning repository git@github.com:jlaguna27/todo-list-aws.git
  > git init /var/lib/jenkins/workspace/PIPELINE-FULL-CD # timeout=10
-Fetching upstream changes from https://github.com/jlaguna27/todo-list-aws/
+Fetching upstream changes from git@github.com:jlaguna27/todo-list-aws.git
  > git --version # timeout=10
  > git --version # 'git version 2.17.1'
-using GIT_ASKPASS to set credentials 
- > git fetch --tags --progress -- https://github.com/jlaguna27/todo-list-aws/ +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git config remote.origin.url https://github.com/jlaguna27/todo-list-aws/ # timeout=10
+using GIT_SSH to set credentials 
+ > git fetch --tags --progress -- git@github.com:jlaguna27/todo-list-aws.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url git@github.com:jlaguna27/todo-list-aws.git # timeout=10
  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
 Avoid second fetch
- > git rev-parse refs/remotes/origin/develop^{commit} # timeout=10
-Checking out Revision 5b6ed2363d5aa0f334625fbb3aafdab473f0c59b (refs/remotes/origin/develop)
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 40b26e6ebf5c162be427d95e2faf0a3103539a51 (refs/remotes/origin/master)
  > git config core.sparsecheckout # timeout=10
- > git checkout -f 5b6ed2363d5aa0f334625fbb3aafdab473f0c59b # timeout=10
-Commit message: "Update samconfig.toml"
+ > git checkout -f 40b26e6ebf5c162be427d95e2faf0a3103539a51 # timeout=10
+Commit message: "Create log_sam_deploy--guided"
 First time build. Skipping changelog.
 [Pipeline] }
 [Pipeline] // stage
@@ -37,7 +37,7 @@ First time build. Skipping changelog.
 Starting staging job
 [Pipeline] build (Building PIPELINE-FULL-STAGING)
 Scheduling project: PIPELINE-FULL-STAGING
-Starting building: PIPELINE-FULL-STAGING #6
+Starting building: PIPELINE-FULL-STAGING #25
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] stage
@@ -45,41 +45,52 @@ Starting building: PIPELINE-FULL-STAGING #6
 [Pipeline] sh (Merging code to master)
 + set -x
 + git branch -a
-* (HEAD detached at 5b6ed23)
+* (HEAD detached at 40b26e6)
   remotes/origin/develop
   remotes/origin/master
 + git checkout -b develop origin/develop
+Previous HEAD position was 40b26e6 Create log_sam_deploy--guided
 Switched to a new branch 'develop'
 Branch 'develop' set up to track remote branch 'develop' from 'origin'.
 + git checkout -b master origin/master
 Switched to a new branch 'master'
 Branch 'master' set up to track remote branch 'master' from 'origin'.
 + git merge develop
-Already up to date.
+Merge made by the 'recursive' strategy.
+ pipelines/PIPELINE-FULL-CD/logs-pipeline-full-CD | 101 +++++++++++++++++++++++
+ 1 file changed, 101 insertions(+)
+ create mode 100644 pipelines/PIPELINE-FULL-CD/logs-pipeline-full-CD
 [Pipeline] sshagent
-FATAL: [ssh-agent] Could not find specified credentials
+[ssh-agent] Using credentials jlaguna27
 [ssh-agent] Looking for ssh-agent implementation...
 [ssh-agent]   Exec ssh-agent (binary ssh-agent on a remote machine)
 $ ssh-agent
-SSH_AUTH_SOCK=/tmp/ssh-GBh2IYP4Go7t/agent.5793
-SSH_AGENT_PID=5796
+SSH_AUTH_SOCK=/tmp/ssh-6C7QzCkHeSDN/agent.5944
+SSH_AGENT_PID=5946
+Running ssh-add (command line suppressed)
+Identity added: /var/lib/jenkins/workspace/PIPELINE-FULL-CD@tmp/private_key_138970217925982924.key (/var/lib/jenkins/workspace/PIPELINE-FULL-CD@tmp/private_key_138970217925982924.key)
 [ssh-agent] Started.
 [Pipeline] {
 [Pipeline] sh
 + git push origin master
-fatal: could not read Username for 'https://github.com': No such device or address
+To github.com:jlaguna27/todo-list-aws.git
+   40b26e6..c3663f0  master -> master
 [Pipeline] }
 $ ssh-agent -k
 unset SSH_AUTH_SOCK;
 unset SSH_AGENT_PID;
-echo Agent pid 5796 killed;
+echo Agent pid 5946 killed;
 [ssh-agent] Stopped.
 [Pipeline] // sshagent
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] stage
 [Pipeline] { (Production)
-Stage "Production" skipped due to earlier failure(s)
+[Pipeline] echo
+Starting production job
+[Pipeline] build (Building PIPELINE-FULL-PRODUCTION)
+Scheduling project: PIPELINE-FULL-PRODUCTION
+Starting building: PIPELINE-FULL-PRODUCTION #3
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] stage
@@ -97,5 +108,4 @@ Clean env: delete dir
 [Pipeline] }
 [Pipeline] // node
 [Pipeline] End of Pipeline
-ERROR: script returned exit code 128
-Finished: FAILURE
+Finished: SUCCESS
