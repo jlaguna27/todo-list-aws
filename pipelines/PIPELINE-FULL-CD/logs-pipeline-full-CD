@@ -1,0 +1,101 @@
+Started by user Juan Sebastian Laguna
+Obtained pipelines/PIPELINE-FULL-CD/Jenkinsfile from git https://github.com/jlaguna27/todo-list-aws/
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/PIPELINE-FULL-CD
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential e3a95a5d-0624-4bb3-947d-ad196fea2e60
+Cloning the remote Git repository
+Cloning repository https://github.com/jlaguna27/todo-list-aws/
+ > git init /var/lib/jenkins/workspace/PIPELINE-FULL-CD # timeout=10
+Fetching upstream changes from https://github.com/jlaguna27/todo-list-aws/
+ > git --version # timeout=10
+ > git --version # 'git version 2.17.1'
+using GIT_ASKPASS to set credentials 
+ > git fetch --tags --progress -- https://github.com/jlaguna27/todo-list-aws/ +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/jlaguna27/todo-list-aws/ # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+ > git rev-parse refs/remotes/origin/develop^{commit} # timeout=10
+Checking out Revision 5b6ed2363d5aa0f334625fbb3aafdab473f0c59b (refs/remotes/origin/develop)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 5b6ed2363d5aa0f334625fbb3aafdab473f0c59b # timeout=10
+Commit message: "Update samconfig.toml"
+First time build. Skipping changelog.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Staging)
+[Pipeline] echo
+Starting staging job
+[Pipeline] build (Building PIPELINE-FULL-STAGING)
+Scheduling project: PIPELINE-FULL-STAGING
+Starting building: PIPELINE-FULL-STAGING #6
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Merge)
+[Pipeline] sh (Merging code to master)
++ set -x
++ git branch -a
+* (HEAD detached at 5b6ed23)
+  remotes/origin/develop
+  remotes/origin/master
++ git checkout -b develop origin/develop
+Switched to a new branch 'develop'
+Branch 'develop' set up to track remote branch 'develop' from 'origin'.
++ git checkout -b master origin/master
+Switched to a new branch 'master'
+Branch 'master' set up to track remote branch 'master' from 'origin'.
++ git merge develop
+Already up to date.
+[Pipeline] sshagent
+FATAL: [ssh-agent] Could not find specified credentials
+[ssh-agent] Looking for ssh-agent implementation...
+[ssh-agent]   Exec ssh-agent (binary ssh-agent on a remote machine)
+$ ssh-agent
+SSH_AUTH_SOCK=/tmp/ssh-GBh2IYP4Go7t/agent.5793
+SSH_AGENT_PID=5796
+[ssh-agent] Started.
+[Pipeline] {
+[Pipeline] sh
++ git push origin master
+fatal: could not read Username for 'https://github.com': No such device or address
+[Pipeline] }
+$ ssh-agent -k
+unset SSH_AUTH_SOCK;
+unset SSH_AGENT_PID;
+echo Agent pid 5796 killed;
+[ssh-agent] Stopped.
+[Pipeline] // sshagent
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Production)
+Stage "Production" skipped due to earlier failure(s)
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] echo
+Clean env: delete dir
+[Pipeline] cleanWs
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] done
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 128
+Finished: FAILURE
